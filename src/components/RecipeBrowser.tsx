@@ -63,6 +63,24 @@ export default function RecipeBrowser({ cuisine, onBack }: RecipeBrowserProps) {
   };
 
   /* =============================
+     SAVE RECIPE FUNCTION
+  ============================== */
+
+  const saveRecipe = (recipe: any) => {
+    const saved = JSON.parse(localStorage.getItem("savedRecipes") || "[]");
+
+    const alreadySaved = saved.find((r: any) => r.idMeal === recipe.idMeal);
+
+    if (!alreadySaved) {
+      saved.push(recipe);
+      localStorage.setItem("savedRecipes", JSON.stringify(saved));
+      alert("Recipe saved!");
+    } else {
+      alert("Recipe already saved.");
+    }
+  };
+
+  /* =============================
      RECIPE DETAILS PAGE
   ============================== */
 
@@ -82,11 +100,13 @@ export default function RecipeBrowser({ cuisine, onBack }: RecipeBrowserProps) {
     return (
       <div className="max-w-4xl mx-auto p-6">
 
+        {/* BACK BUTTON */}
         <button
           onClick={() => setSelectedRecipe(null)}
-          className="mb-6 text-orange-500 font-semibold"
+          className="mb-6 flex items-center text-orange-500 font-semibold"
         >
-          ← Back to recipes
+          <ArrowLeft className="mr-2" size={20} />
+          Back to recipes
         </button>
 
         <h1 className="text-3xl font-bold mb-4">
@@ -98,6 +118,14 @@ export default function RecipeBrowser({ cuisine, onBack }: RecipeBrowserProps) {
           alt={selectedRecipe.strMeal}
           className="rounded-xl mb-6"
         />
+
+        {/* SAVE BUTTON */}
+        <button
+          onClick={() => saveRecipe(selectedRecipe)}
+          className="mb-6 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition"
+        >
+          ❤️ Save Recipe
+        </button>
 
         <h2 className="text-xl font-bold mb-2">Ingredients</h2>
         <ul className="list-disc ml-6 mb-6">

@@ -53,7 +53,7 @@ export default function RecipeDetail({ recipeId, onClose }: RecipeDetailProps) {
       .eq('recipe_id', recipeId);
 
     if (recipeData) setRecipe(recipeData);
-    if (ingredientsData) setIngredients(ingredientsData as RecipeIngredient[]);
+    if (ingredientsData) setIngredients(ingredientsData as unknown as RecipeIngredient[]);
     setLoading(false);
   };
 
@@ -76,15 +76,27 @@ export default function RecipeDetail({ recipeId, onClose }: RecipeDetailProps) {
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 overflow-y-auto">
       <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full my-8">
-        <div className="relative h-64 bg-gradient-to-br from-orange-400 to-red-400 rounded-t-2xl flex items-center justify-center">
-          <span className="text-9xl">🍽️</span>
-          <button
-            onClick={onClose}
-            className="absolute top-4 right-4 bg-white/90 p-2 rounded-full hover:bg-white transition-colors"
-          >
-            <X size={24} />
-          </button>
-        </div>
+        <div className="relative">
+
+  <button
+    onClick={onClose}
+    className="absolute top-4 left-4 z-50 bg-white px-4 py-2 rounded-lg shadow hover:bg-gray-100 font-semibold"
+  >
+    ← Back
+  </button>
+
+  <div className="h-64 bg-gradient-to-br from-orange-400 to-red-400 rounded-t-2xl flex items-center justify-center">
+    <span className="text-9xl">🍽️</span>
+
+    <button
+      onClick={onClose}
+      className="absolute top-4 right-4 bg-white/90 p-2 rounded-full hover:bg-white transition-colors"
+    >
+      <X size={24} />
+    </button>
+  </div>
+
+</div>
 
         <div className="p-8">
           <div className="flex items-start justify-between mb-6">
