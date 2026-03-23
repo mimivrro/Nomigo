@@ -1,11 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import RegionMap from './RegionMap';
 import CuisineView from './CuisineView';
+import LeftoverSearch from './LeftoverSearch';
 
 const HERO_WORDS = ['Explore.', 'Discover.', 'Create.'];
 
 export default function HomePage() {
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
+  const [showLeftovers, setShowLeftovers] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [wordIdx, setWordIdx] = useState(0);
   const [fade, setFade] = useState(true);
@@ -22,6 +24,10 @@ export default function HomePage() {
     }, 2600);
     return () => clearInterval(interval);
   }, []);
+
+  if (showLeftovers) {
+    return <LeftoverSearch onBack={() => setShowLeftovers(false)} />;
+  }
 
   if (selectedRegion) {
     return <CuisineView region={selectedRegion} onBack={() => setSelectedRegion(null)} />;
@@ -478,7 +484,7 @@ export default function HomePage() {
               <button className="cta-gold" onClick={() => document.getElementById('map')?.scrollIntoView({ behavior:'smooth' })}>
                 Explore Cuisines
               </button>
-              <button className="cta-outline" onClick={() => document.getElementById('leftovers')?.scrollIntoView({ behavior:'smooth' })}>
+              <button className="cta-outline" onClick={() => setShowLeftovers(true)}>
                 My Leftovers
               </button>
             </div>
@@ -500,7 +506,7 @@ export default function HomePage() {
               Ingredients:<br />
               <span>Go Nom</span>
             </h2>
-            <button className="leftover-btn">My Leftovers →</button>
+            <button className="leftover-btn" onClick={() => setShowLeftovers(true)}>My Leftovers →</button>
           </div>
         </section>
 
