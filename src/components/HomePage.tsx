@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import RegionMap from './RegionMap';
 import CuisineView from './CuisineView';
 import LeftoverSearch from './LeftoverSearch';
@@ -24,6 +24,44 @@ export default function HomePage() {
     }, 2600);
     return () => clearInterval(interval);
   }, []);
+
+
+
+
+  
+
+  const handleNavEvent = useCallback((e: Event) => {
+  const target = (e as CustomEvent).detail as string;
+
+  // If we're on a sub-page, go back to home first, then scroll after mount
+  if (selectedRegion || showLeftovers) {
+    setSelectedRegion(null);
+    setShowLeftovers(false);
+    // Wait for HomePage to remount, then scroll
+    setTimeout(() => {
+      if (target === 'about') {
+        document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+      } else if (target === 'contact') {
+        document.getElementById('footer')?.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 80); // small delay lets the DOM render first
+    return;
+  }
+
+  // Already on HomePage — scroll directly
+  if (target === 'home') {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else if (target === 'about') {
+    document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+  } else if (target === 'contact') {
+    document.getElementById('footer')?.scrollIntoView({ behavior: 'smooth' });
+  }
+}, [selectedRegion, showLeftovers]);
+
+useEffect(() => {
+  window.addEventListener('nomigo:navigate', handleNavEvent);
+  return () => window.removeEventListener('nomigo:navigate', handleNavEvent);
+}, [handleNavEvent]);
 
   if (showLeftovers) {
     return <LeftoverSearch onBack={() => setShowLeftovers(false)} />;

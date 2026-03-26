@@ -167,10 +167,16 @@ export default function Header() {
           </div>
 
           <nav className="hdr-nav">
-            <button className="nav-link" onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Home</button>
-            <button className="nav-link" onClick={() => { document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' }); }}>About</button>
-            <button className="nav-link" onClick={() => { document.getElementById('footer')?.scrollIntoView({ behavior: 'smooth' }); }}>Contact</button>
-            <div className="nav-sep" />
+            <button className="nav-link" onClick={() => {
+  window.dispatchEvent(new CustomEvent('nomigo:navigate', { detail: 'home' }));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}}>Home</button>
+<button className="nav-link" onClick={() => {
+  window.dispatchEvent(new CustomEvent('nomigo:navigate', { detail: 'about' }));
+}}>About</button>
+<button className="nav-link" onClick={() => {
+  window.dispatchEvent(new CustomEvent('nomigo:navigate', { detail: 'contact' }));
+}}>Contact</button>
             {user ? (
               <>
                 <button className="nav-icon-btn"><Heart size={14} strokeWidth={2} />Saved</button>
@@ -191,9 +197,17 @@ export default function Header() {
       {mobileOpen && (
         <div className="mob-overlay">
           <button className="mob-close" onClick={() => setMobileOpen(false)}><X size={28} /></button>
-          {['Home','About','Contact'].map(l => (
-            <button key={l} className="mob-link" onClick={() => setMobileOpen(false)}>{l}</button>
-          ))}
+         {[
+  { label: 'Home',    target: 'home'    },
+  { label: 'About',   target: 'about'   },
+  { label: 'Contact', target: 'contact' },
+].map(({ label, target }) => (
+  <button key={label} className="mob-link" onClick={() => {
+    setMobileOpen(false);
+    window.dispatchEvent(new CustomEvent('nomigo:navigate', { detail: target }));
+    if (target === 'home') window.scrollTo({ top: 0, behavior: 'smooth' });
+  }}>{label}</button>
+))}
           {user ? (
             <button className="mob-link" onClick={() => { signOut(); setMobileOpen(false); }}>Sign Out</button>
           ) : (
