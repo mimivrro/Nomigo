@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import RegionMap from './RegionMap';
 import CuisineView from './CuisineView';
-import LeftoverSearch from './temp';
+import LeftoverSearch from './LeftoverSearch';
 
 const HERO_WORDS = ['Explore.', 'Discover.', 'Create.'];
 
