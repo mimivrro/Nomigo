@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Plus, X, Search, ChevronDown, Globe } from 'lucide-react';
+import { ArrowLeft, X, Search, ChevronDown, Globe } from 'lucide-react';
 
 interface LeftoverSearchProps {
   onBack: () => void;
