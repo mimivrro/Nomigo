@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import RegionMap from './RegionMap';
 import CuisineView from './CuisineView';
-import LeftoverSearch from './LeftoverSearch';
+import LeftoverSearch from './temp';
 
 const HERO_WORDS = ['Explore.', 'Discover.', 'Create.'];
 
@@ -28,7 +28,7 @@ export default function HomePage() {
 
 
 
-  
+
 
   const handleNavEvent = useCallback((e: Event) => {
   const target = (e as CustomEvent).detail as string;
